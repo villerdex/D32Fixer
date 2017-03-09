@@ -10,26 +10,32 @@ import java.util.regex.Pattern;
  */
 public class main {
 
-    public static void main(String[] args) {
+    static String  cssReplacement = "";  // }.d32_c
+    static  String htmlReplacement = ""; // d32_c
+    public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String className = "";
-        System.out.println("Enter String:");
-        try {
-            String line = "";
-            while ((line = reader.readLine()) !=  "</html>") {
 
+        String line = "";
+
+            System.out.println("Enter HTML Replacement:"); // get string to be use on replacement
+            htmlReplacement =  reader.readLine();
+
+            System.out.println("Enter CSS Replacement:"); // get String to be use on css replacement
+            cssReplacement =  reader.readLine();
+
+            System.out.println("Enter HTML to parse:");  // get String to be parsed
+
+            while ((line = reader.readLine()) !=  "</html>") {
                 if (line.contains("class")){
                     line =  getClassNamesOnString(line);
                 }
                 if(line.contains("}.c")){
-                    line = line.replaceAll("}.c", "}.d32_c");
+                    line = line.replaceAll("}.c", cssReplacement);
                 }
 
-                 System.out.println(line);
+                 System.out.println(line); //  print
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     static  String getClassNamesOnString(String line) {
@@ -38,14 +44,12 @@ public class main {
 
         ArrayList<String> arrayList = new ArrayList<>();
 
-
         String[] lineX = line.split("class=\"*([^\"]*)\"");
 
         while (m.find()) {
             String classes = m.group(1);
-            classes = classes.replaceAll("c", "d32_c");
+            classes = classes.replaceAll("c", htmlReplacement);
             arrayList.add(classes);
-
         }
 
         String mod = "";
